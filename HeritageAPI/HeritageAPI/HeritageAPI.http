@@ -1,0 +1,6 @@
+@HeritageAPI_HostAddress = http://localhost:5115
+
+GET {{HeritageAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
