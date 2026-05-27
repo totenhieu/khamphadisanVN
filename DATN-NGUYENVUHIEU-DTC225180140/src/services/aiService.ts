@@ -1,4 +1,4 @@
-const BASE_URL = "http://tenhieu1-001-site1.ktempurl.com/api";
+const BASE_URL = "https://tenhieu1-001-site1.ktempurl.com/api";
 
 export const askAIAssistant = async (question: string) => {
   const res = await fetch(`${BASE_URL}/ai/ask`, {

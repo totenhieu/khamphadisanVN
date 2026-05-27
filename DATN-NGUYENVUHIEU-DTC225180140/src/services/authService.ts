@@ -1,5 +1,7 @@
+const BASE_URL = "https://tenhieu1-001-site1.ktempurl.com/api/auth";
+
 export const loginApi = async (username: string, password: string) => {
-  const res = await fetch("http://tenhieu1-001-site1.ktempurl.com/api/auth/login", {
+  const res = await fetch(`${BASE_URL}/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -18,7 +20,7 @@ export const registerApi = async (
   password: string,
   phoneNumber: string
 ) => {
-  const res = await fetch("http://tenhieu1-001-site1.ktempurl.com/api/auth/register", {
+  const res = await fetch(`${BASE_URL}/register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -39,7 +41,7 @@ export const registerApi = async (
 };
 
 export const getUserCountApi = async () => {
-  const res = await fetch("http://tenhieu1-001-site1.ktempurl.com/api/auth/users/count");
+  const res = await fetch(`${BASE_URL}/users/count`);
   if (!res.ok) {
     return 0; // Trả về 0 nếu có lỗi
   }
@@ -48,7 +50,7 @@ export const getUserCountApi = async () => {
 };
 
 export const getAllUsersApi = async () => {
-  const res = await fetch("http://tenhieu1-001-site1.ktempurl.com/api/auth/users");
+  const res = await fetch(`${BASE_URL}/users`);
   if (!res.ok) {
     throw new Error("Failed to fetch users");
   }
@@ -56,7 +58,7 @@ export const getAllUsersApi = async () => {
 };
 
 export const toggleUserStatusApi = async (userId: number, isLocked: boolean) => {
-  const res = await fetch(`http://tenhieu1-001-site1.ktempurl.com/api/auth/users/${userId}/toggle-status`, {
+  const res = await fetch(`${BASE_URL}/users/${userId}/toggle-status`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

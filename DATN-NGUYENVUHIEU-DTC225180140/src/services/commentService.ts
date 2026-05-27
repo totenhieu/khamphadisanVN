@@ -1,4 +1,4 @@
-const API_URL = "http://tenhieu1-001-site1.ktempurl.com/api/comments";
+const API_URL = "https://tenhieu1-001-site1.ktempurl.com/api/comments";
 
 export type Comment = {
   id: number;
