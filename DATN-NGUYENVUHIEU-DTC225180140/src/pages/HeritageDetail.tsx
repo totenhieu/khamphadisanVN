@@ -78,7 +78,14 @@ const HeritageDetail = () => {
   return (
     <PageLayout withTopPadding={false}>
       <section className="relative h-[70vh] min-h-[480px] w-full overflow-hidden">
-        <img src={images[currentImage] || 'https://placehold.co/1920x1080?text=No+Image'} alt={heritage.name} className="absolute inset-0 w-full h-full object-cover transition-all duration-500" />
+        <img 
+          src={images[currentImage] || 'https://placehold.co/1920x1080?text=No+Image'} 
+          alt={heritage.name} 
+          className="absolute inset-0 w-full h-full object-cover transition-all duration-500" 
+          onError={(e) => {
+            e.currentTarget.src = "https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=1920&q=80";
+          }}
+        />
         <div className="absolute inset-0 bg-gradient-hero" />
         <div className="relative z-10 container mx-auto h-full flex flex-col justify-end pb-12 pt-20">
           <Link to="/di-san" className="inline-flex items-center gap-2 text-background/80 hover:text-secondary text-sm mb-6 transition-smooth w-fit">
@@ -104,7 +111,14 @@ const HeritageDetail = () => {
                   onClick={() => setCurrentImage(idx)}
                   className={`relative w-20 h-14 rounded-md overflow-hidden shrink-0 border-2 transition-all ${currentImage === idx ? 'border-secondary opacity-100' : 'border-transparent opacity-60 hover:opacity-100'}`}
                 >
-                  <img src={img} alt="" className="w-full h-full object-cover" />
+                  <img 
+                    src={img} 
+                    alt="" 
+                    className="w-full h-full object-cover" 
+                    onError={(e) => {
+                      e.currentTarget.src = "https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=200&q=80";
+                    }}
+                  />
                 </button>
               ))}
             </div>
@@ -135,6 +149,9 @@ const HeritageDetail = () => {
                     src={images[1]} 
                     alt={`Phong cảnh ${heritage.name}`} 
                     className="w-full h-[450px] object-cover group-hover:scale-105 transition-transform duration-700" 
+                    onError={(e) => {
+                      e.currentTarget.src = "https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=1000&q=80";
+                    }}
                   />
                 </div>
                 <figcaption className="text-center text-sm font-medium text-muted-foreground p-4 bg-muted/30 border-t border-border">
@@ -159,6 +176,9 @@ const HeritageDetail = () => {
                     src={img} 
                     alt={`Góc nhìn khác của ${heritage.name}`} 
                     className="w-full h-[300px] object-cover rounded-xl shadow-md hover:shadow-lg transition-shadow" 
+                    onError={(e) => {
+                      e.currentTarget.src = "https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=800&q=80";
+                    }}
                   />
                 ))}
               </div>
@@ -286,7 +306,7 @@ const HeritageDetail = () => {
                     zoomControl={false}
                     attributionControl={false}
                   >
-                    <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                    <TileLayer url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png" />
                     <Marker 
                       position={[heritage.lat, heritage.lng]} 
                       icon={new L.Icon({

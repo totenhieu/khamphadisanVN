@@ -89,8 +89,8 @@ const MapPage = () => {
                 attributionControl={false}
               >
                 <TileLayer
-                  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                  attribution='&copy; <a href="https://carto.com/attributions">CARTO</a>'
+                  url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
                 />
                 {items.map((h) => {
                   if (!h.lat || !h.lng) return null;
@@ -125,7 +125,15 @@ const MapPage = () => {
               <>
                 <div className="rounded-2xl overflow-hidden bg-card border border-border shadow-soft">
                   <div className="aspect-video overflow-hidden">
-                    <img src={selected.image?.split(',')[0] || 'https://placehold.co/600x400?text=No+Image'} alt={selected.name} className="w-full h-full object-cover" loading="lazy" />
+                    <img 
+                      src={selected.image?.split(',')[0] || 'https://placehold.co/600x400?text=No+Image'} 
+                      alt={selected.name} 
+                      className="w-full h-full object-cover" 
+                      loading="lazy" 
+                      onError={(e) => {
+                        e.currentTarget.src = "https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=800&q=80";
+                      }}
+                    />
                   </div>
                   <div className="p-5">
                     <Badge className="bg-secondary text-secondary-foreground border-0 mb-2">{selected.recognized}</Badge>

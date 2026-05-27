@@ -1,4 +1,4 @@
-const BASE_URL = "https://localhost:7216/api"; // 🔥 đổi sang https để tránh lỗi HTTPS Redirection
+const BASE_URL = "http://tenhieu1-001-site1.ktempurl.com/api";
 
 // 🔥 GET ALL (PUBLISHED ONLY - CHO NGƯỜI DÙNG)
 export const getHeritages = async () => {

@@ -15,6 +15,9 @@ const HeritageCard = ({ heritage }: { heritage: any }) => {
           alt={heritage.name}
           loading="lazy"
           className="w-full h-full object-cover transition-smooth group-hover:scale-110"
+          onError={(e) => {
+            e.currentTarget.src = "https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=800&q=80";
+          }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-foreground/85 via-foreground/20 to-transparent" />
 

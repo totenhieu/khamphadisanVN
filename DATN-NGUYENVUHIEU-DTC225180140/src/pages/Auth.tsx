@@ -56,7 +56,7 @@ const Auth = () => {
 
     try {
       if (mode === "signin") {
-        const res = await fetch("https://localhost:7216/api/auth/login", {
+        const res = await fetch("http://tenhieu1-001-site1.ktempurl.com/api/auth/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -81,7 +81,7 @@ const Auth = () => {
         navigate("/");
       } else {
         // ĐĂNG KÝ
-        const res = await fetch("https://localhost:7216/api/auth/register", {
+        const res = await fetch("http://tenhieu1-001-site1.ktempurl.com/api/auth/register", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({

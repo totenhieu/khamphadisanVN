@@ -254,6 +254,12 @@ const Admin = () => {
     }
   };
 
+  const imageCount = items.reduce((sum, item) => {
+    if (!item.image) return sum;
+    const count = item.image.split(',').map((s: string) => s.trim()).filter(Boolean).length;
+    return sum + count;
+  }, 0);
+
   return (
     <PageLayout>
 
@@ -264,7 +270,7 @@ const Admin = () => {
             { label: "Tổng bài viết", value: items.length, icon: FileText, color: "from-primary to-primary-glow" },
             { label: "Chờ duyệt", value: items.filter((x: any) => !x.isPublished).length, icon: Clock, color: "from-secondary to-secondary" },
             { label: "Đã xuất bản", value: items.filter((x: any) => x.isPublished).length, icon: CheckCircle2, color: "from-emerald-600 to-emerald-500" },
-            { label: "Người dùng", value: userCount, icon: Users, color: "from-amber-700 to-amber-500" },
+            { label: "Hình ảnh", value: imageCount, icon: ImageIcon, color: "from-amber-700 to-amber-500" },
           ].map((s) => (
             <div key={s.label} className="rounded-2xl bg-card border border-border p-5 shadow-soft">
               <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${s.color} flex items-center justify-center mb-3`}>
@@ -330,7 +336,14 @@ const Admin = () => {
                   {currentItems.map((h, i) => (
                     <tr key={h.id} className="border-t border-border hover:bg-accent/30 transition-smooth">
                       <td className="px-5 py-3">
-                        <img src={h.image} alt="" className="w-12 h-12 rounded-md object-cover" />
+                        <img 
+                          src={h.image ? h.image.split(',')[0].trim() : "https://placehold.co/100?text=No+Image"} 
+                          alt="" 
+                          className="w-12 h-12 rounded-md object-cover" 
+                          onError={(e) => {
+                            e.currentTarget.src = "https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=200&q=80";
+                          }}
+                        />
                       </td>
                       <td className="px-5 py-3 font-medium">{h.name}</td>
                       <td className="px-5 py-3">{h.category}</td>
@@ -377,7 +390,14 @@ const Admin = () => {
           <div className="grid md:grid-cols-2 gap-4">
             {items.filter(h => !h.isPublished).map((h) => (
               <div key={h.id} className="rounded-2xl border border-border bg-card overflow-hidden shadow-soft">
-                <img src={h.image} alt="" className="w-full h-40 object-cover" />
+                <img 
+                  src={h.image ? h.image.split(',')[0].trim() : "https://placehold.co/400x200?text=No+Image"} 
+                  alt="" 
+                  className="w-full h-40 object-cover" 
+                  onError={(e) => {
+                    e.currentTarget.src = "https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=800&q=80";
+                  }}
+                />
                 <div className="p-5">
                   <Badge className="bg-secondary/20 text-secondary border-0 mb-2">Chờ duyệt</Badge>
                   <h4 className="font-serif-display text-xl mb-1">{h.name}</h4>
