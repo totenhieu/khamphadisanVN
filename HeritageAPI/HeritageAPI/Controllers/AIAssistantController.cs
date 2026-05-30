@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace HeritageAPI.Controllers
 {
@@ -10,8 +11,18 @@ namespace HeritageAPI.Controllers
     [Route("api/ai")]
     public class AIAssistantController : ControllerBase
     {
-        // lấy API Key Gemini free
-        private readonly string _geminiApiKey = "AIzaSyCQcaH5IeKiaW5fliW1GL4a2FY88Vkft_8";
+        private readonly string _geminiApiKey;
+        private readonly IConfiguration _configuration;
+
+        public AIAssistantController(IConfiguration configuration)
+        {
+            _configuration = configuration;
+            _geminiApiKey = _configuration["Gemini:ApiKey"]
+                ?? throw new InvalidOperationException(
+                    "Gemini API key chưa được cấu hình. " +
+                    "Dev: dùng 'dotnet user-secrets set \"Gemini:ApiKey\" \"<key>\"'. " +
+                    "Production: set biến môi trường 'Gemini__ApiKey'.");
+        }
 
         [HttpPost("ask")]
         public async Task<IActionResult> AskQuestion([FromBody] AIRequest request)
