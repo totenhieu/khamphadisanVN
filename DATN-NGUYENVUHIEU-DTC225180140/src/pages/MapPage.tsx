@@ -145,8 +145,9 @@ const MapPage = () => {
                 })}
                 <MapUpdater center={selected?.lat && selected?.lng ? [selected.lat, selected.lng] : null} />
               </MapContainer>
-            )}
-          </div>
+            </>
+          )}
+        </div>
 
           {/* Side panel */}
           <aside className="space-y-4">
