@@ -35,6 +35,7 @@ const MapPage = () => {
   const [selected, setSelected] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [searchParams] = useSearchParams();
+  const [mapType, setMapType] = useState<"voyager" | "satellite">("voyager");
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -81,17 +82,36 @@ const MapPage = () => {
                 <Loader2 className="w-8 h-8 animate-spin text-primary" />
               </div>
             ) : (
-              <MapContainer 
-                center={[16.0, 106.0]} 
-                zoom={5} 
-                className="w-full h-full"
-                scrollWheelZoom={true}
-                attributionControl={false}
-              >
-                <TileLayer
-                  attribution='&copy; <a href="https://carto.com/attributions">CARTO</a>'
-                  url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
-                />
+              <>
+                {/* Map Type Switcher Toggle */}
+                <div className="absolute top-4 right-4 z-[500] flex gap-2">
+                  <button
+                    onClick={() => setMapType("voyager")}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-semibold shadow-md transition-smooth ${mapType === "voyager" ? "bg-primary text-primary-foreground border-0" : "bg-card text-foreground hover:bg-accent border border-border"}`}
+                  >
+                    Bản đồ hành chính
+                  </button>
+                  <button
+                    onClick={() => setMapType("satellite")}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-semibold shadow-md transition-smooth ${mapType === "satellite" ? "bg-primary text-primary-foreground border-0" : "bg-card text-foreground hover:bg-accent border border-border"}`}
+                  >
+                    Ảnh vệ tinh (Xem đảo)
+                  </button>
+                </div>
+
+                <MapContainer 
+                  center={[16.0, 106.0]} 
+                  zoom={5} 
+                  className="w-full h-full"
+                  scrollWheelZoom={true}
+                  attributionControl={false}
+                >
+                  <TileLayer
+                    attribution={mapType === "voyager" ? '&copy; <a href="https://carto.com/attributions">CARTO</a>' : '&copy; ESRI'}
+                    url={mapType === "voyager" 
+                      ? "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+                      : "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"}
+                  />
                 {items.map((h) => {
                   if (!h.lat || !h.lng) return null;
                   const isHoangSa = h.name.includes("Hoàng Sa") || h.province?.includes("Hoàng Sa") || h.location?.includes("Hoàng Sa");
