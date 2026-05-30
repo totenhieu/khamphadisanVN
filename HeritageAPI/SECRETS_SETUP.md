@@ -58,3 +58,4 @@ Hoặc dùng **Azure Key Vault** / **Docker secrets** nếu deploy bằng contai
 | Key | Mô tả |
 |-----|-------|
 | `ConnectionStrings:DefaultConnection` | Connection string đến SQL Server |
+| `Gemini:ApiKey` | API Key của Google Gemini |

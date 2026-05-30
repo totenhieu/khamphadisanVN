@@ -50,7 +50,7 @@ namespace HeritageAPI.Controllers
             var content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json");
             var response = await httpClient.PostAsync(url, content);
 
-         
+
             if (!response.IsSuccessStatusCode)
             {
                 var errorDetail = await response.Content.ReadAsStringAsync();
@@ -68,7 +68,7 @@ namespace HeritageAPI.Controllers
         }
     }
 
-        public class AIRequest
+    public class AIRequest
     {
         public string Question { get; set; }
     }
