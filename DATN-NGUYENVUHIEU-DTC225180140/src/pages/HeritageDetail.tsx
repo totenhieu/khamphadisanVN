@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import HeritageComments from "@/components/HeritageComments";
 import { getHeritageDetail } from "@/services/heritageService";
-import { MapContainer, TileLayer, Marker } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Tooltip } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
@@ -318,7 +318,19 @@ const HeritageDetail = () => {
                         popupAnchor: [1, -34],
                         shadowSize: [41, 41]
                       })} 
-                    />
+                    >
+                      {((heritage.name && (heritage.name.includes("Hoàng Sa") || heritage.name.includes("Trường Sa"))) ||
+                        (heritage.province && (heritage.province.includes("Hoàng Sa") || heritage.province.includes("Trường Sa")))) && (
+                        <Tooltip 
+                          permanent 
+                          direction="top" 
+                          offset={[0, -20]}
+                          className="bg-red-50 text-red-600 font-bold border border-red-300 px-2 py-1 rounded shadow-md text-[11px]"
+                        >
+                          {heritage.name.includes("Hoàng Sa") ? "Quần đảo Hoàng Sa (Việt Nam)" : "Quần đảo Trường Sa (Việt Nam)"}
+                        </Tooltip>
+                      )}
+                    </Marker>
                   </MapContainer>
                 ) : (
                   <div className="w-full h-full flex items-center justify-center text-muted-foreground text-sm">

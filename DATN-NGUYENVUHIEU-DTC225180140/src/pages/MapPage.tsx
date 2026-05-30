@@ -4,7 +4,7 @@ import { MapPin, Loader2 } from "lucide-react";
 import PageLayout from "@/components/layout/PageLayout";
 import { Badge } from "@/components/ui/badge";
 import { getHeritages } from "@/services/heritageService";
-import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, Tooltip, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
@@ -94,6 +94,9 @@ const MapPage = () => {
                 />
                 {items.map((h) => {
                   if (!h.lat || !h.lng) return null;
+                  const isHoangSa = h.name.includes("Hoàng Sa") || h.province?.includes("Hoàng Sa") || h.location?.includes("Hoàng Sa");
+                  const isTruongSa = h.name.includes("Trường Sa") || h.province?.includes("Trường Sa") || h.location?.includes("Trường Sa");
+                  
                   return (
                     <Marker 
                       key={h.id} 
@@ -107,6 +110,16 @@ const MapPage = () => {
                         <div className="font-semibold text-primary mb-1">{h.name}</div>
                         <div className="text-xs text-muted-foreground">{h.province}</div>
                       </Popup>
+                      {(isHoangSa || isTruongSa) && (
+                        <Tooltip 
+                          permanent 
+                          direction="top" 
+                          offset={[0, -20]}
+                          className="bg-red-50 text-red-600 font-bold border border-red-300 px-2 py-1 rounded shadow-md text-[11px]"
+                        >
+                          {isHoangSa ? "Quần đảo Hoàng Sa (Việt Nam)" : "Quần đảo Trường Sa (Việt Nam)"}
+                        </Tooltip>
+                      )}
                     </Marker>
                   );
                 })}
