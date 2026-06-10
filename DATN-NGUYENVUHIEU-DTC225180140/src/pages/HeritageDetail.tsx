@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, MapPin, Award, Sparkles, MessageCircle, Volume2, Loader2, Info, Bookmark, Map, Clock, Banknote, TreePine, Footprints, AlertCircle } from "lucide-react";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { ArrowLeft, MapPin, Award, Sparkles, MessageCircle, Volume2, Loader2, Info, Bookmark, Map, Clock, Banknote, TreePine, Footprints, AlertCircle, ExternalLink } from "lucide-react";
 import PageLayout from "@/components/layout/PageLayout";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -12,6 +12,7 @@ import L from "leaflet";
 
 const HeritageDetail = () => {
   const { slug } = useParams();
+  const navigate = useNavigate();
   const [heritage, setHeritage] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -296,52 +297,79 @@ const HeritageDetail = () => {
               <h3 className="font-serif-display text-xl mb-4 text-primary border-b border-border pb-3 flex items-center gap-2">
                 <MapPin className="w-5 h-5" /> Vị trí trên bản đồ
               </h3>
-              <div className="aspect-square rounded-lg bg-muted overflow-hidden mb-3 relative z-0">
+
+              {/* Bản đồ nhỏ — click để mở trang Bản đồ đầy đủ */}
+              <div
+                className="aspect-square rounded-lg bg-muted overflow-hidden mb-3 relative z-0 cursor-pointer group"
+                onClick={() => navigate("/ban-do")}
+                title="Nhấn để xem trên bản đồ đầy đủ"
+              >
                 {heritage.lat && heritage.lng ? (
-                  <MapContainer 
-                    center={[heritage.lat, heritage.lng]} 
-                    zoom={13} 
-                    className="w-full h-full"
-                    scrollWheelZoom={false}
-                    zoomControl={false}
-                    attributionControl={false}
-                  >
-                    <TileLayer url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png" />
-                    <Marker 
-                      position={[heritage.lat, heritage.lng]} 
-                      icon={new L.Icon({
-                        iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
-                        iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
-                        shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
-                        iconSize: [25, 41],
-                        iconAnchor: [12, 41],
-                        popupAnchor: [1, -34],
-                        shadowSize: [41, 41]
-                      })} 
+                  <>
+                    <MapContainer 
+                      center={[heritage.lat, heritage.lng]} 
+                      zoom={13} 
+                      className="w-full h-full"
+                      scrollWheelZoom={false}
+                      zoomControl={false}
+                      attributionControl={false}
+                      dragging={false}
                     >
-                      {((heritage.name && (heritage.name.includes("Hoàng Sa") || heritage.name.includes("Trường Sa"))) ||
-                        (heritage.province && (heritage.province.includes("Hoàng Sa") || heritage.province.includes("Trường Sa")))) && (
-                        <Tooltip 
-                          permanent 
-                          direction="top" 
-                          offset={[0, -20]}
-                          className="bg-red-50 text-red-600 font-bold border border-red-300 px-2 py-1 rounded shadow-md text-[11px]"
-                        >
-                          {heritage.name.includes("Hoàng Sa") ? "Quần đảo Hoàng Sa (Việt Nam)" : "Quần đảo Trường Sa (Việt Nam)"}
-                        </Tooltip>
-                      )}
-                    </Marker>
-                  </MapContainer>
+                      <TileLayer url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png" />
+                      <Marker 
+                        position={[heritage.lat, heritage.lng]} 
+                        icon={new L.Icon({
+                          iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
+                          iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
+                          shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+                          iconSize: [25, 41],
+                          iconAnchor: [12, 41],
+                          popupAnchor: [1, -34],
+                          shadowSize: [41, 41]
+                        })} 
+                      >
+                        {((heritage.name && (heritage.name.includes("Hoàng Sa") || heritage.name.includes("Trường Sa"))) ||
+                          (heritage.province && (heritage.province.includes("Hoàng Sa") || heritage.province.includes("Trường Sa")))) && (
+                          <Tooltip 
+                            permanent 
+                            direction="top" 
+                            offset={[0, -20]}
+                            className="bg-red-50 text-red-600 font-bold border border-red-300 px-2 py-1 rounded shadow-md text-[11px]"
+                          >
+                            {heritage.name.includes("Hoàng Sa") ? "Quần đảo Hoàng Sa (Việt Nam)" : "Quần đảo Trường Sa (Việt Nam)"}
+                          </Tooltip>
+                        )}
+                      </Marker>
+                    </MapContainer>
+
+                    {/* Overlay trong suốt — hiện khi hover để báo có thể click */}
+                    <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/20 transition-all duration-300 flex items-center justify-center z-10 pointer-events-none">
+                      <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white/90 text-primary text-xs font-semibold px-3 py-1.5 rounded-full shadow-md flex items-center gap-1.5">
+                        <ExternalLink className="w-3.5 h-3.5" />
+                        Xem bản đồ đầy đủ
+                      </div>
+                    </div>
+                  </>
                 ) : (
                   <div className="w-full h-full flex items-center justify-center text-muted-foreground text-sm">
                     Chưa có toạ độ
                   </div>
                 )}
               </div>
-              <p className="text-sm text-foreground/90 font-medium mt-3 bg-muted p-3 rounded-lg flex items-start gap-2">
+
+              <p className="text-sm text-foreground/90 font-medium bg-muted p-3 rounded-lg flex items-start gap-2 mb-3">
                 <MapPin className="w-4 h-4 shrink-0 text-secondary mt-0.5" />
                 <span>{heritage.location}, {heritage.province}</span>
               </p>
+
+              {/* Nút điều hướng sang trang Bản đồ */}
+              <Link
+                to="/ban-do"
+                className="flex items-center justify-center gap-2 w-full py-2 px-4 rounded-lg border border-primary/30 text-primary text-sm font-medium hover:bg-primary hover:text-primary-foreground transition-all duration-200"
+              >
+                <Map className="w-4 h-4" />
+                Mở trang Bản đồ
+              </Link>
             </div>
           </aside>
         </div>
