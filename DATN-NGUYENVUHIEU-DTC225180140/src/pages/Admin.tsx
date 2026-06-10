@@ -28,7 +28,7 @@ import { Lock, Unlock } from "lucide-react";
 
 
 
-const categories: string[] = ["Kiến trúc", "Đô thị cổ", "Khảo cổ", "Văn miếu"];
+const categories: string[] = ["Kiến trúc", "Lịch sử", "Đô thị cổ", "Khảo cổ", "Tâm linh", "Thiên nhiên", "Văn miếu"];
 
 type HeritageForm = {
   id: string;
